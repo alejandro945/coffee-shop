@@ -2,11 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
-public class CoffeeShop {
+public class Ages {
     private ArrayList<Double> ages;
     private double prom;
 
-    public CoffeeShop() {
+    public Ages() {
         this.ages = new ArrayList<Double>();
     }
 
@@ -18,7 +18,7 @@ public class CoffeeShop {
         for (var age : renderAges) {
             ages.add(age);
         }
-        return "The children ages have been added succesfully";
+        return "The children ages have been added succesfully" + "\n";
     }
 
     public String deleteAges() {
@@ -46,11 +46,13 @@ public class CoffeeShop {
                 }
             }
         }
-        double prom = (cont / (ages.size() - 1));
+        double prom = ((ages.size() == 1) ? Math.rint((cont / ((double) (ages.size()))) * 100) / 100
+                : Math.rint((cont / ((double) (ages.size() - 1))) * 100) / 100);
         this.prom = prom;
     }
 
     public String showAgesSorted() {
+        bubbleSort(ages);
         return prom + "-" + showData();
     }
 }

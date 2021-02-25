@@ -2,66 +2,75 @@ package ui;
 
 import java.io.*;
 
-import model.EssentialShop;
+import model.Cases;
 
 public class Main {
-    public static final int EXIT_OPTION = 5;
+    public static final String SEPARATOR = "\\ ";
+    private static Cases es = new Cases();
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        EssentialShop es = new EssentialShop();
+    public static void main(String[] args) throws IOException {
         int option;
-        do {
-            bw.write("1. Add Ages to Sets" + "\n");
-            bw.write("2. Show Data Sets" + "\n");
-            bw.write("3. Clear Data Sets" + "\n");
-            bw.write("4. Ordenar Data Sets" + "\n");
-            bw.write("5. Exit" + "\n");
-            bw.write("Enter the option: ");
-            bw.flush();
-            option = Integer.parseInt(br.readLine());
-            switch (option) {
-                case 1:
-                    bw.write("Cantidad de casos a agregar: ");
-                    bw.flush();
-                    int cases = Integer.parseInt(br.readLine());
-                    for (int i = 0; i < cases; i++) {
-                        bw.write("Cantidad de edades a agregar caso " + (i + 1) + ": ");
-                        bw.flush();
-                        int ages = Integer.parseInt(br.readLine());
-                        double[] agesF = new double[ages];
-                        for (int j = 0; j < ages; j++) {
-                            bw.write("Edad boy " + (j + 1) + ": ");
-                            bw.flush();
-                            double age = Double.parseDouble(br.readLine());
-                            agesF[j] = age;
-                        }
-                        bw.write(es.addCases(agesF) + "\n");
-                        bw.flush();
-                    }
-                    break;
-                case 2:
-                    bw.write(es.showDataSets() + "\n");
-                    bw.flush();
-                    break;
-                case 3:
-                    bw.write(es.deleteCases() + "\n");
-                    bw.flush();
-                    break;
-                case 4:
-                    bw.write(es.sort() + "\n");
-                    bw.flush();
-                    break;
-                case 5:
-                    bw.write("Gracias!!");
-                    bw.flush();
-                    break;
-                default:
-                    bw.write("Opcion invalida");
-                    bw.flush();
-            }
+        bw.write("1. Competition" + "\n");
+        bw.write("2. Import and Export" + "\n");
+        bw.write("Enter the option: ");
+        bw.flush();
+        option = Integer.parseInt(br.readLine());
+        menu(option);
+    }
 
-        } while (option != EXIT_OPTION);
+    public static void initialize() throws IOException {
+        int size = Integer.parseInt(br.readLine());
+        double[] cases = new double[size];
+        for (int i = 0; i < cases.length; i++) {
+            String[] parts = br.readLine().split(SEPARATOR);
+            double[] ages = new double[parts.length];
+            for (int j = 0; j < ages.length; j++) {
+                ages[j] = Double.parseDouble(parts[j]);
+            }
+            es.addCases(ages);
+        }
+        br.close();
+        bw.write(es.showDataSets());
+        bw.flush();
+    }
+
+    public static void importAndExportData() throws IOException {
+        // IMPORT
+        BufferedReader brf = new BufferedReader(
+                new FileReader("C:/Users/alejo/Desktop/APO II/SEMANA 4/coffee-shop/data/Input2.txt"));
+        brf.readLine();
+        String line = brf.readLine();
+        while (line != null) {
+            String[] parts = line.split(SEPARATOR);
+            double[] ages = new double[parts.length];
+            for (int i = 0; i < ages.length; i++) {
+                ages[i] = Double.parseDouble(parts[i]);
+            }
+            es.addCases(ages);
+            line = brf.readLine();
+        }
+        brf.close();
+        // EXPORT
+        BufferedWriter bwf = new BufferedWriter(
+                new FileWriter("C:/Users/alejo/Desktop/APO II/SEMANA 4/coffee-shop/data/Output.txt"));
+        for (int i = 0; i < es.getSet().size(); i++) {
+            bwf.write(es.showDataSets());
+        }
+        bwf.close();
+        bw.write("Data have been imported and exported succesfully");
+        bw.flush();
+    }
+
+    public static void menu(int option) throws IOException {
+        switch (option) {
+            case 1:
+                initialize();
+                break;
+            case 2:
+                importAndExportData();
+                break;
+        }
     }
 }
