@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         int option;
-        bw.write("1. Competition" + "\n");
+        bw.write("1. Competition (Copy and Paste)" + "\n");
         bw.write("2. Import and Export" + "\n");
         bw.write("Enter the option: ");
         bw.flush();
@@ -38,8 +38,7 @@ public class Main {
 
     public static void importAndExportData() throws IOException {
         // IMPORT
-        BufferedReader brf = new BufferedReader(
-                new FileReader("C:/Users/alejo/Desktop/APO II/SEMANA 4/coffee-shop/data/Input2.txt"));
+        BufferedReader brf = new BufferedReader(new FileReader("data/Input2.txt"));
         brf.readLine();
         String line = brf.readLine();
         while (line != null) {
@@ -53,13 +52,10 @@ public class Main {
         }
         brf.close();
         // EXPORT
-        BufferedWriter bwf = new BufferedWriter(
-                new FileWriter("C:/Users/alejo/Desktop/APO II/SEMANA 4/coffee-shop/data/Output.txt"));
-        for (int i = 0; i < es.getSet().size(); i++) {
-            bwf.write(es.showDataSets());
-        }
+        BufferedWriter bwf = new BufferedWriter(new FileWriter("data/Output.txt"));
+        bwf.write(es.showDataSets());
         bwf.close();
-        bw.write("Data have been imported and exported succesfully");
+        bw.write("Data have been imported and exported succesfully, CHECK OUTPUT.TXT IN DATA FOLDER");
         bw.flush();
     }
 

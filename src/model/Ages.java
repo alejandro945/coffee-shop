@@ -28,8 +28,13 @@ public class Ages {
 
     public String showData() {
         String msg = "";
-        for (var age : this.ages) {
-            msg += age + " ";
+        for (int i = 0; i < this.ages.size(); i++) {
+            if (i != this.ages.size() - 1) {
+                msg += ages.get(i) + " ";
+            } else {
+                msg += ages.get(i);
+            }
+
         }
         return msg;
     }
@@ -46,8 +51,8 @@ public class Ages {
                 }
             }
         }
-        double prom = ((ages.size() == 1) ? Math.rint((cont / ((double) (ages.size()))) * 100) / 100
-                : Math.rint((cont / ((double) (ages.size() - 1))) * 100) / 100);
+        double prom = ((ages.size() == 1) ? Math.floor((cont / ((double) (ages.size()))) * 100) / 100
+                : Math.floor((cont / ((double) (ages.size() - 1))) * 100) / 100);
         this.prom = prom;
     }
 
